@@ -2,3 +2,6 @@
 logging:
   level:
     com.deliwind: debug
+
+except:
+  files: .ds_store,.git
