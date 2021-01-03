@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 @Getter
 public class TargetFile {
 
-    static Set TARGET_EXTS = Set.of("gif", "jpg", "heic", "mp4", "mov");
+    public static final Pattern IMPORT_EXT_PATTERN = Pattern.compile("^(.*)(\\.[\\w]+)$");
+    public static final Set TARGET_EXTS = Set.of("gif", "jpg", "jpeg", "heic", "mp4", "mov");
 
-    private static final Pattern IMPORT_EXT_PATTERN = Pattern.compile("^(.*)(\\.[\\w]+)$");
     public static String getFileExt(String fileName) {
         String extWithDot = IMPORT_EXT_PATTERN.matcher(fileName).replaceAll("$2");
         if(!extWithDot.contains(".")) {
@@ -37,8 +37,7 @@ public class TargetFile {
     }
 
     public boolean isTargetToCheck() {
-
-        return true;
+        return TARGET_EXTS.contains(this.getFileExt());
     }
 
     public String getHash() {

@@ -39,7 +39,7 @@ class TargetFileTest {
     }
 
     @Nested
-    @DisplayName("get FileExt Test")
+    @DisplayName("파일 확장자 가져오는 getFileExt 메소드를 테스트 한다.")
     static class GetFileExtTest {
 
         @ParameterizedTest
@@ -57,5 +57,27 @@ class TargetFileTest {
                     of("thereisnoext", "")
             );
         }
+    }
+
+    @Nested
+    @DisplayName("당 파일이 체크 대상 파일인지 테스트 한다")
+    static class IsTargetToCheckTest {
+
+        @ParameterizedTest
+        @MethodSource("isTargetToCheckTestCases")
+        public void isTargetToCheckTest(String path, boolean expect) throws Exception {
+            var targetFile = new TargetFile(path);
+            var isTargetToCheck = targetFile.isTargetToCheck();
+
+            assertThat(isTargetToCheck, is(expect));
+        }
+
+        public static Stream<Arguments> isTargetToCheckTestCases() {
+            return Stream.of(
+                    of("./src/test/resources/photos/image1.jpeg", true),
+                    of("./src/test/resources/photos/1.txt", false)
+            );
+        }
+
     }
 }
