@@ -10,8 +10,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
-import java.util.UUID;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,14 +42,10 @@ class TargetFileTest {
     @DisplayName("get FileExt Test")
     static class GetFileExtTest {
 
-        private static final Pattern IMPORT_EXT_PATTERN = Pattern.compile("^.*\\.([\\w]+)$");
-
         @ParameterizedTest
         @MethodSource("getFileExtTestCases")
         public void getFileExtTest(String fileName, String expectedExt) {
-//            assertThat(TargetFile.getFileExt(fileName), is(expectedExt));
-
-            assertThat(IMPORT_EXT_PATTERN.matcher(fileName).matches(), is(true));
+            assertThat(TargetFile.getFileExt(fileName), is(expectedExt));
         }
 
         private static Stream<Arguments> getFileExtTestCases() { // argument source method
