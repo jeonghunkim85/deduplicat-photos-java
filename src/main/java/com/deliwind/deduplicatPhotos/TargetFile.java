@@ -3,8 +3,8 @@ package com.deliwind.deduplicatPhotos;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -40,8 +40,13 @@ public class TargetFile {
         return TARGET_EXTS.contains(this.getFileExt());
     }
 
-    public String getHash() {
-        return null;
+    public Optional<String> getHash() {
+        try (InputStream is = new FileInputStream(this.getFile())) {
+            String md5 = org.apache.commons.codec.digest.DigestUtils.sha256Hex(is);
+            return Optional.of(md5);
+        } catch(IOException ioe) {
+            return Optional.empty();
+        }
     }
 
     public String getFileName() {

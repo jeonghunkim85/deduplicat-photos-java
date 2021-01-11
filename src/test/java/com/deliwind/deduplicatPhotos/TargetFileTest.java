@@ -78,6 +78,27 @@ class TargetFileTest {
                     of("./src/test/resources/photos/1.txt", false)
             );
         }
+    }
 
+    @Nested
+    @DisplayName("파일의 해시를 제대로 가져오는지 테스트 한다")
+    static class GetHashTest {
+
+        @ParameterizedTest
+        @MethodSource("getHashTestCases")
+        public void getHashTest(String path, String expect) throws Exception {
+            var targetFile = new TargetFile(path);
+            var hash = targetFile.getHash();
+
+            log.debug(hash.get());
+            assertThat(hash.get(), is(expect));
+        }
+
+        public static Stream<Arguments> getHashTestCases() {
+            return Stream.of(
+                    of("./src/test/resources/photos/image1.jpeg", "9b6492bbfd700a6a9cf8941ccd58f30f88cacfd0e08a9bbff86b31b539ef6226"),
+                    of("./src/test/resources/photos/image2.jpeg", "7d739ddf25b1828860634b9abffae30d7af9fb7b7fbdf0ce3dfc56fd42c3c464")
+            );
+        }
     }
 }
